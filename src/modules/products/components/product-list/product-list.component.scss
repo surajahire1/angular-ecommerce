@@ -1,0 +1,61 @@
+.page-header {
+  background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+  border-radius: 0 0 1rem 1rem;
+}
+
+.card {
+  border: none;
+  border-radius: 0.75rem;
+
+  .card-header {
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+  }
+}
+
+.form-range::-webkit-slider-thumb {
+  background: #4361ee;
+}
+
+.form-range::-moz-range-thumb {
+  background: #4361ee;
+}
+
+.btn-group .btn.active {
+  background-color: #4361ee;
+  color: white;
+  border-color: #4361ee;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #4361ee;
+  border-color: #4361ee;
+}
+
+.pagination .page-link {
+  color: #4361ee;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(67, 97, 238, 0.1);
+    color: #4361ee;
+  }
+}
+
+.text-warning i {
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.category-badge {
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #4361ee !important;
+    color: white !important;
+  }
+}

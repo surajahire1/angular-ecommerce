@@ -1,0 +1,79 @@
+// Media queries
+@mixin media-breakpoint-up($breakpoint) {
+  @if map-has-key($grid-breakpoints, $breakpoint) {
+    $min: map-get($grid-breakpoints, $breakpoint);
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+@mixin media-breakpoint-down($breakpoint) {
+  @if map-has-key($grid-breakpoints, $breakpoint) {
+    $max: map-get($grid-breakpoints, $breakpoint) - 0.02px;
+    @media (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+// Flexbox
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Truncate text
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// Card styles
+@mixin card {
+  background-color: $white;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-sm;
+  transition: $transition-base;
+
+  &:hover {
+    box-shadow: $box-shadow;
+    transform: translateY(-2px);
+  }
+}
+
+// Button styles
+@mixin button-variant($background, $color) {
+  background-color: $background;
+  color: $color;
+  border: 1px solid $background;
+
+  &:hover:not(:disabled) {
+    background-color: darken($background, 10%);
+    border-color: darken($background, 10%);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

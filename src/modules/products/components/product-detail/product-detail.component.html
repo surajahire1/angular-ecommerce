@@ -1,0 +1,254 @@
+<!-- Loading State -->
+<div *ngIf="isLoading" class="container py-5">
+  <div class="text-center">
+    <app-loading-spinner message="Loading product details..."></app-loading-spinner>
+  </div>
+</div>
+
+<!-- Error State -->
+<div *ngIf="errorMessage && !isLoading" class="container py-5">
+  <div class="alert alert-danger">
+    <i class="fas fa-exclamation-circle me-2"></i>
+    {{ errorMessage }}
+  </div>
+  <div class="text-center mt-4">
+    <a routerLink="/products" class="btn btn-primary">
+      <i class="fas fa-arrow-left me-2"></i>
+      Back to Products
+    </a>
+  </div>
+</div>
+
+<!-- Product Detail -->
+<div *ngIf="product && !isLoading" class="container py-4">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item"><a routerLink="/products">Products</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/products/category', product.category]">{{ product.category | titlecase }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
+    </ol>
+  </nav>
+
+  <div class="row">
+    <!-- Product Images -->
+    <div class="col-lg-6">
+      <!-- Main Image -->
+      <div class="main-image mb-4">
+        <img
+          [src]="product.images[selectedImageIndex] || product.thumbnail"
+          [alt]="product.title"
+          class="img-fluid rounded shadow"
+          (error)="product.images[selectedImageIndex] = product.thumbnail"
+        >
+        <span *ngIf="product.discountPercentage > 0"
+              class="badge bg-danger position-absolute top-0 end-0 m-3 fs-6">
+          -{{ product.discountPercentage }}%
+        </span>
+      </div>
+
+      <!-- Thumbnail Images -->
+      <div class="thumbnail-images d-flex flex-wrap gap-2">
+        <div *ngFor="let image of product.images; let i = index"
+             class="thumbnail-item"
+             [class.active]="i === selectedImageIndex"
+             (click)="selectImage(i)">
+          <img
+            [src]="image"
+            [alt]="product.title + ' image ' + (i + 1)"
+            class="img-thumbnail"
+            (error)="product.images[i] = product.thumbnail"
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="col-lg-6">
+      <div class="product-info">
+        <!-- Category -->
+        <div class="mb-3">
+          <span class="badge bg-light text-dark fs-6">{{ product.category | titlecase }}</span>
+          <span class="badge bg-primary ms-2 fs-6">{{ product.brand }}</span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="display-5 fw-bold mb-3">{{ product.title }}</h1>
+
+        <!-- Rating -->
+        <div class="rating mb-3">
+          <div class="d-flex align-items-center">
+            <div class="text-warning me-2">
+              <i *ngFor="let star of ratingArray" class="fas fa-star fa-lg"></i>
+              <i *ngIf="hasHalfStar" class="fas fa-star-half-alt fa-lg"></i>
+              <i *ngFor="let empty of [1,2,3,4,5].slice(ratingArray.length + (hasHalfStar ? 1 : 0))"
+                 class="far fa-star fa-lg"></i>
+            </div>
+            <span class="fs-5 me-3">{{ product.rating }}/5</span>
+            <span class="text-muted">(Based on reviews)</span>
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div class="price-section mb-4">
+          <h2 class="display-4 fw-bold text-primary mb-0">
+            ${{ discountPrice | number:'1.2-2' }}
+          </h2>
+          <div class="d-flex align-items-center">
+            <span *ngIf="product.discountPercentage > 0"
+                  class="text-muted text-decoration-line-through fs-4 me-3">
+              ${{ product.price | number:'1.2-2' }}
+            </span>
+            <span class="badge bg-success fs-6">
+              Save ${{ (product.price - discountPrice) | number:'1.2-2' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Stock Status -->
+        <div class="stock-status mb-4">
+          <h5 [class]="'mb-2 ' + stockStatusClass">
+            <i class="fas fa-box me-2"></i>
+            {{ stockStatus }}
+          </h5>
+          <div class="progress" style="height: 8px;">
+            <div class="progress-bar bg-success"
+                 [style.width]="(product.stock / 100) * 100 + '%'"
+                 role="progressbar">
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="description mb-4">
+          <h4 class="mb-3">Description</h4>
+          <p class="lead">{{ product.description }}</p>
+        </div>
+
+        <!-- Specifications -->
+        <div class="specifications mb-4">
+          <h4 class="mb-3">Specifications</h4>
+          <div class="row">
+            <div class="col-md-6">
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <strong>Brand:</strong> {{ product.brand }}
+                </li>
+                <li class="mb-2">
+                  <strong>Category:</strong> {{ product.category | titlecase }}
+                </li>
+                <li class="mb-2">
+                  <strong>Stock:</strong> {{ product.stock }} units
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <strong>Discount:</strong> {{ product.discountPercentage }}%
+                </li>
+                <li class="mb-2">
+                  <strong>Rating:</strong> {{ product.rating }}/5
+                </li>
+                <li class="mb-2">
+                  <strong>SKU:</strong> PROD-{{ product.id.toString().padStart(4, '0') }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add to Cart Section -->
+        <div class="add-to-cart-section card border-0 shadow-sm p-4">
+          <div class="row align-items-center">
+            <!-- Quantity -->
+            <div class="col-md-4 mb-3 mb-md-0">
+              <label class="form-label fw-bold">Quantity</label>
+              <div class="input-group">
+                <button class="btn btn-outline-secondary"
+                        type="button"
+                        (click)="decreaseQuantity()"
+                        [disabled]="quantity <= 1">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <input type="text"
+                       class="form-control text-center"
+                       [value]="quantity"
+                       readonly>
+                <button class="btn btn-outline-secondary"
+                        type="button"
+                        (click)="increaseQuantity()"
+                        [disabled]="isOutOfStock() || quantity >= product.stock">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              <small class="text-muted">Max: {{ product.stock }} units</small>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="col-md-8">
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary btn-lg"
+                        (click)="addToCart()"
+                        [disabled]="isOutOfStock()">
+                  <i class="fas fa-cart-plus me-2"></i>
+                  Add to Cart
+                </button>
+                <button class="btn btn-success btn-lg"
+                        (click)="buyNow()"
+                        [disabled]="isOutOfStock()">
+                  <i class="fas fa-bolt me-2"></i>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shipping Info -->
+        <div class="shipping-info mt-4">
+          <div class="row text-center">
+            <div class="col-md-4 mb-3">
+              <div class="card border-0 h-100">
+                <div class="card-body">
+                  <i class="fas fa-shipping-fast fa-2x text-primary mb-3"></i>
+                  <h6 class="fw-bold">Free Shipping</h6>
+                  <p class="text-muted small mb-0">On orders over $50</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card border-0 h-100">
+                <div class="card-body">
+                  <i class="fas fa-undo-alt fa-2x text-primary mb-3"></i>
+                  <h6 class="fw-bold">30-Day Returns</h6>
+                  <p class="text-muted small mb-0">Easy return policy</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card border-0 h-100">
+                <div class="card-body">
+                  <i class="fas fa-shield-alt fa-2x text-primary mb-3"></i>
+                  <h6 class="fw-bold">Secure Payment</h6>
+                  <p class="text-muted small mb-0">100% secure</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Products -->
+  <div *ngIf="relatedProducts.length > 0" class="mt-5 pt-5 border-top">
+    <h2 class="mb-4">Related Products</h2>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let relatedProduct of relatedProducts">
+        <app-product-card [product]="relatedProduct"></app-product-card>
+      </div>
+    </div>
+  </div>
+</div>

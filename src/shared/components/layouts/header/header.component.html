@@ -1,0 +1,225 @@
+<header class="header bg-white shadow-sm sticky-top">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <!-- Logo -->
+      <a class="navbar-brand" routerLink="/">
+        <h1 class="h4 mb-0 text-primary fw-bold">
+          <i class="fas fa-shopping-bag me-2"></i>
+          ShopEZ
+        </h1>
+      </a>
+
+      <!-- Mobile Toggle Button -->
+      <button class="navbar-toggler" type="button" (click)="toggleMenu()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navbar Content -->
+      <div class="collapse navbar-collapse" [class.show]="isMenuOpen">
+        <!-- Search Bar -->
+        <div
+          class="d-flex align-items-center w-100 w-lg-auto mb-3 mb-lg-0 me-lg-3"
+        >
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search products..."
+              [(ngModel)]="searchQuery"
+              (keyup.enter)="onSearch()"
+            />
+            <button class="btn btn-outline-primary" (click)="onSearch()">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <!-- Home -->
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="isMenuOpen = false"
+            >
+              <i class="fas fa-home me-1"></i>
+              Home
+            </a>
+          </li>
+
+          <!-- Products -->
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/products"
+              routerLinkActive="active"
+              (click)="isMenuOpen = false"
+            >
+              <i class="fas fa-store me-1"></i>
+              Products
+            </a>
+          </li>
+
+          <!-- Categories Dropdown -->
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              (click)="isMenuOpen = false"
+            >
+              <i class="fas fa-list me-1"></i>
+              Categories
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/products/category/electronics"
+                  >Electronics</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/products/category/fashion"
+                  >Fashion</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/products/category/home"
+                  >Home & Kitchen</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/products/category/shoes"
+                  >Shoes</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/products/category/headphones"
+                  >Headphones</a
+                >
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" routerLink="/categories"
+                  >All Categories</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <!-- Cart -->
+          <li class="nav-item">
+            <a
+              class="nav-link position-relative"
+              routerLink="/cart"
+              routerLinkActive="active"
+              (click)="isMenuOpen = false"
+            >
+              <i class="fas fa-shopping-cart me-1"></i>
+              Cart
+              <span
+                *ngIf="cartCount > 0"
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              >
+                {{ cartCount }}
+              </span>
+            </a>
+          </li>
+
+          <!-- User Menu -->
+          <li
+            class="nav-item dropdown"
+            *ngIf="isLoggedIn; else loginLink"
+            appClickOutside
+            (clickOutside)="onClickOutsideUserMenu()"
+          >
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              (click)="toggleUserMenu()"
+              aria-expanded="false"
+            >
+              <div class="d-flex align-items-center">
+                <div
+                  class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                >
+                  {{ userInitials }}
+                </div>
+                <span class="d-none d-md-inline">{{ userDisplayName }}</span>
+              </div>
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              [class.show]="isUserMenuOpen"
+            >
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/profile"
+                  (click)="closeUserMenu()"
+                >
+                  <i class="fas fa-user me-2"></i>My Profile
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/orders"
+                  (click)="closeUserMenu()"
+                >
+                  <i class="fas fa-box me-2"></i>My Orders
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/wishlist"
+                  (click)="closeUserMenu()"
+                >
+                  <i class="fas fa-heart me-2"></i>Wishlist
+                </a>
+              </li>
+              <li *ngIf="currentUser?.role === 'admin'">
+                <a
+                  class="dropdown-item"
+                  routerLink="/admin"
+                  (click)="closeUserMenu()"
+                >
+                  <i class="fas fa-cog me-2"></i>Admin Dashboard
+                </a>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item text-danger" (click)="logout()">
+                  <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <ng-template #loginLink>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                routerLink="/auth/login"
+                routerLinkActive="active"
+                (click)="isMenuOpen = false"
+              >
+                <i class="fas fa-sign-in-alt me-1"></i>
+                Login
+              </a>
+            </li>
+          </ng-template>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

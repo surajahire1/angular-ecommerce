@@ -1,0 +1,497 @@
+// src/app/modules/checkout/components/order-confirmation/order-confirmation.component.scss
+/* Order Confirmation Styles */
+
+/* Success Animation */
+.success-checkmark {
+  position: relative;
+  animation: successPulse 2s ease-in-out infinite;
+
+  @keyframes successPulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}
+
+/* Status Timeline */
+.status-timeline {
+  .timeline {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 30px;
+      left: 50px;
+      right: 50px;
+      height: 4px;
+      background-color: var(--bs-gray-300);
+      z-index: 1;
+    }
+
+    .timeline-step {
+      position: relative;
+      flex: 1;
+      text-align: center;
+      z-index: 2;
+
+      &.completed {
+        .timeline-icon {
+          background-color: var(--bs-success);
+          border-color: var(--bs-success);
+          color: white;
+
+          &::after {
+            background-color: var(--bs-success);
+          }
+        }
+
+        .timeline-content h6 {
+          color: var(--bs-success);
+        }
+      }
+
+      .timeline-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: 4px solid var(--bs-gray-300);
+        background-color: white;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: var(--bs-gray-500);
+        position: relative;
+        transition: all 0.3s ease;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 100%;
+          width: 100%;
+          height: 4px;
+          background-color: var(--bs-gray-300);
+          transform: translateY(-50%);
+          z-index: -1;
+        }
+      }
+
+      &:last-child .timeline-icon::after {
+        display: none;
+      }
+
+      .timeline-content {
+        h6 {
+          font-size: 0.9rem;
+          margin-bottom: 0.25rem;
+          transition: color 0.3s ease;
+        }
+
+        p {
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .timeline-step.completed .timeline-icon::after {
+      background-color: var(--bs-success);
+    }
+  }
+}
+
+/* Step Numbers in Next Steps */
+.step-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--bs-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+/* Status Badges */
+.badge {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 20px;
+
+  &.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000;
+  }
+
+  &.bg-info {
+    background-color: #0dcaf0 !important;
+    color: #000;
+  }
+
+  &.bg-success {
+    background-color: #198754 !important;
+    color: white;
+  }
+
+  &.bg-primary {
+    background-color: #0d6efd !important;
+    color: white;
+  }
+
+  &.bg-danger {
+    background-color: #dc3545 !important;
+    color: white;
+  }
+}
+
+/* Order Items Table */
+.table {
+  th {
+    font-weight: 600;
+    color: var(--bs-gray-700);
+    border-bottom: 2px solid var(--bs-gray-300);
+  }
+
+  td {
+    border-color: var(--bs-gray-200);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+/* Address Cards */
+address {
+  line-height: 1.8;
+
+  strong {
+    color: var(--bs-gray-800);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  i {
+    width: 16px;
+    text-align: center;
+  }
+}
+
+/* Payment Method Display */
+.payment-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+/* Alert Customization */
+.alert {
+  border-radius: 10px;
+  border: none;
+
+  &-info {
+    background-color: rgba(13, 202, 240, 0.1);
+    border-left: 4px solid #0dcaf0;
+  }
+
+  &-success {
+    background-color: rgba(25, 135, 84, 0.1);
+    border-left: 4px solid #198754;
+  }
+}
+
+/* Action Buttons */
+.btn {
+  &.btn-outline-primary, &.btn-outline-secondary, &.btn-outline-info {
+    border-width: 2px;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+/* Quantity Badge */
+.badge.bg-primary.rounded-pill {
+  min-width: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .status-timeline .timeline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+
+    &::before {
+      display: none;
+    }
+
+    .timeline-step {
+      display: flex;
+      align-items: center;
+      text-align: left;
+      width: 100%;
+      gap: 1rem;
+
+      .timeline-icon {
+        margin: 0;
+        flex-shrink: 0;
+
+        &::after {
+          display: none;
+        }
+      }
+
+      .timeline-content {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .display-5 {
+    font-size: 2rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .table-responsive {
+    margin: 0 -1rem;
+    padding: 0 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .container {
+    max-width: 100%;
+  }
+
+  .btn, .status-timeline, .step-number, .badge {
+    display: none !important;
+  }
+
+  .card {
+    border: none;
+    box-shadow: none;
+  }
+
+  .card-header {
+    background: white !important;
+    color: black !important;
+    border-bottom: 2px solid #000;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .text-primary, .text-success {
+    color: black !important;
+  }
+}
+
+/* Loading Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card Hover Effects */
+.card {
+  animation: fadeIn 0.5s ease-out;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease;
+  }
+}
+
+/* Price Display */
+.price {
+  .text-decoration-line-through {
+    font-size: 0.875rem;
+  }
+}
+
+/* Order Summary Card */
+.card.shadow-sm {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+/* Button Groups */
+.d-grid.gap-2 {
+  .btn {
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Support Info */
+.list-unstyled {
+  li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--bs-gray-200);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      color: var(--bs-gray-700);
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--bs-primary);
+        text-decoration: none;
+
+        i {
+          transform: scale(1.1);
+        }
+      }
+
+      i {
+        transition: transform 0.2s ease;
+      }
+    }
+  }
+}
+
+/* Mobile Optimizations */
+.mobile-optimized {
+  @media (max-width: 576px) {
+    .d-flex {
+      flex-direction: column;
+      align-items: flex-start !important;
+      gap: 0.5rem;
+    }
+
+    .justify-content-between {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .text-end, .text-center {
+      text-align: left !important;
+    }
+
+    .table {
+      font-size: 0.875rem;
+
+      th, td {
+        padding: 0.5rem;
+      }
+    }
+  }
+}
+
+/* Focus States */
+:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Back to Top Button */
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--bs-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+ &:hover {
+    background: rgba(var(--bs-primary-rgb), 0.9);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bs-gray-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bs-gray-400);
+  border-radius: 5px;
+
+  &:hover {
+    background: var(--bs-gray-500);
+  }
+}

@@ -1,0 +1,219 @@
+/* Cart Page Styles */
+
+// Quantity Control
+.quantity-control {
+  .btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  input {
+    width: 50px;
+    font-weight: bold;
+  }
+}
+
+// Order Summary Sticky Card
+.card.sticky-top {
+  top: 90px; // Below the sticky header
+  z-index: 100;
+  border-radius: 0.75rem;
+  overflow: hidden;
+
+  .card-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+  }
+
+  .card-body {
+    .form-check {
+      padding-left: 0;
+      margin-bottom: 0.75rem;
+
+      .form-check-input {
+        margin-top: 0.3rem;
+        margin-right: 0.75rem;
+
+        &:checked {
+          background-color: #4361ee;
+          border-color: #4361ee;
+        }
+      }
+
+      .form-check-label {
+        width: 100%;
+        cursor: pointer;
+
+        &:hover {
+          color: #4361ee;
+        }
+      }
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(67, 97, 238, 0.3);
+      }
+    }
+  }
+}
+
+// Table Styling
+.table {
+  margin-bottom: 0;
+
+  thead {
+    th {
+      border-bottom: 2px solid #dee2e6;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      padding: 1rem;
+    }
+  }
+
+  tbody {
+    tr {
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: rgba(67, 97, 238, 0.05);
+        transform: translateY(-2px);
+      }
+
+      td {
+        padding: 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid #dee2e6;
+      }
+    }
+  }
+}
+
+// Promo Code
+.input-group {
+  .form-control {
+    &:focus {
+      border-color: #4361ee;
+      box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+    }
+  }
+
+  .btn {
+    background-color: #4361ee;
+    color: white;
+    border-color: #4361ee;
+
+    &:hover {
+      background-color: #3a0ca3;
+      border-color: #3a0ca3;
+    }
+
+    &:disabled {
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+  }
+}
+
+// Help Section
+.card.border-0 {
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+
+  .card-body {
+    a {
+      color: #495057;
+      transition: all 0.3s ease;
+
+      &:hover {
+        color: #4361ee;
+        padding-left: 5px;
+      }
+    }
+  }
+}
+
+// Empty Cart
+.text-center {
+  i.fa-shopping-cart {
+    opacity: 0.3;
+  }
+
+  .btn-primary {
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+  }
+}
+
+// Responsive Design
+@media (max-width: 991.98px) {
+  .table-responsive {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .table {
+    thead {
+      display: none;
+    }
+
+    tbody {
+      tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        padding: 1rem;
+
+        td {
+          display: block;
+          text-align: left;
+          border: none;
+          padding: 0.5rem 0;
+          position: relative;
+
+          &:before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 45%;
+            padding-right: 10px;
+            font-weight: bold;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Animation for cart updates
+@keyframes itemAdded {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.item-updated {
+  animation: itemAdded 0.3s ease;
+}

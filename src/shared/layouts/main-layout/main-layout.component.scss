@@ -1,0 +1,10 @@
+/* Remove @use import */
+.main-layout main {
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 180px);
+}
+
+
+main.flex-grow-1 {
+  padding-top: 80px !important; /* Adjust based on actual header height */
+}

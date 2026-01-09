@@ -1,0 +1,105 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5">
+          <!-- Logo -->
+          <div class="text-center mb-4">
+            <h2 class="text-primary fw-bold">
+              <i class="fas fa-shopping-bag me-2"></i>
+              ShopEZ
+            </h2>
+            <p class="text-muted">Welcome back! Please sign in to continue.</p>
+          </div>
+
+          <!-- Login Form -->
+          <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                [(ngModel)]="credentials.email"
+                class="form-control"
+                placeholder="Enter your email"
+                required
+                [disabled]="isLoading"
+              >
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                [(ngModel)]="credentials.password"
+                class="form-control"
+                placeholder="Enter your password"
+                required
+                [disabled]="isLoading"
+              >
+              <div class="text-end mt-2">
+                <a routerLink="/auth/forgot-password" class="text-decoration-none small">
+                  Forgot password?
+                </a>
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              <i class="fas fa-exclamation-circle me-2"></i>
+              {{ errorMessage }}
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="btn btn-primary w-100 py-2"
+              [disabled]="isLoading || !loginForm.valid"
+            >
+              <span *ngIf="!isLoading">
+                <i class="fas fa-sign-in-alt me-2"></i>
+                Sign In
+              </span>
+              <span *ngIf="isLoading">
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                Signing In...
+              </span>
+            </button>
+          </form>
+
+          <!-- Divider -->
+          <div class="text-center my-4">
+            <span class="text-muted">or</span>
+          </div>
+
+          <!-- Social Login (Placeholder) -->
+          <div class="d-grid gap-2">
+            <button class="btn btn-outline-secondary" type="button" disabled>
+              <i class="fab fa-google me-2"></i>
+              Continue with Google
+            </button>
+            <button class="btn btn-outline-secondary" type="button" disabled>
+              <i class="fab fa-facebook me-2"></i>
+              Continue with Facebook
+            </button>
+          </div>
+
+          <!-- Sign Up Link -->
+          <div class="text-center mt-4">
+            <p class="text-muted mb-0">
+              Don't have an account?
+              <a routerLink="/auth/register" class="text-decoration-none fw-bold ms-1">
+                Sign Up
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

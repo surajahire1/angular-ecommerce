@@ -1,0 +1,17 @@
+<div class="main-layout d-flex flex-column min-vh-100">
+  <!-- Header -->
+  <app-header></app-header>
+
+  <!-- Main Content -->
+  <main class="flex-grow-1 py-4">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+
+  <!-- Loading Overlay -->
+  <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+</div>
