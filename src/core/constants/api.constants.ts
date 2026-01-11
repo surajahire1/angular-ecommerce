@@ -1,3 +1,13 @@
+// Determine if we're in production
+const IS_PRODUCTION = window.location.hostname !== 'localhost'
+  && !window.location.hostname.includes('127.0.0.1');
+
+// Base URL for API
+export const API_BASE_URL = IS_PRODUCTION
+  ? 'https://ecommerce-backend.onrender.com'  // Your production Render URL
+  : 'http://localhost:3000';                  // Local development
+
+// API endpoints - they will automatically use the correct base URL
 export const API_ENDPOINTS = {
   // Products endpoints
   PRODUCTS: {
@@ -77,7 +87,10 @@ export const API_ENDPOINTS = {
   }
 };
 
-export const API_BASE_URL = 'http://localhost:3000';
+// Helper function to get full URL
+export function getFullUrl(endpoint: string): string {
+  return `${API_BASE_URL}${endpoint}`;
+}
 
 export const API_CONFIG = {
   TIMEOUT: 30000, // 30 seconds
@@ -85,7 +98,8 @@ export const API_CONFIG = {
   CACHE_DURATION: 5 * 60 * 1000, // 5 minutes
   UPLOAD_MAX_SIZE: 10 * 1024 * 1024, // 10MB
   DEFAULT_PAGE_SIZE: 12,
-  MAX_PAGE_SIZE: 100
+  MAX_PAGE_SIZE: 100,
+  IS_PRODUCTION: IS_PRODUCTION
 };
 
 export const API_ERROR_CODES = {

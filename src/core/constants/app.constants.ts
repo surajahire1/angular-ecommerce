@@ -93,6 +93,7 @@ export const FEATURE_FLAGS = {
   ENABLE_MULTI_LANGUAGE: false
 };
 
+
 // Default values
 export const DEFAULTS = {
   USER_AVATAR: 'https://via.placeholder.com/150x150?text=User',
@@ -110,10 +111,14 @@ export const DEFAULTS = {
   }
 };
 
+const IS_PRODUCTION = window.location.hostname !== 'localhost'
+  && !window.location.hostname.includes('127.0.0.1');
+
 // Environment-specific settings (would be replaced by environment files)
 export const ENVIRONMENT = {
-  PRODUCTION: false,
-  DEBUG: true,
+  PRODUCTION: IS_PRODUCTION,
+  DEBUG: !IS_PRODUCTION,
   VERSION: '1.0.0',
   BUILD_TIMESTAMP: new Date().toISOString()
 };
+
