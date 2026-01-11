@@ -4,7 +4,7 @@ const IS_PRODUCTION = window.location.hostname !== 'localhost'
 
 // Base URL for API
 export const API_BASE_URL = IS_PRODUCTION
-  ? 'https://ecommerce-backend.onrender.com'  // Your production Render URL
+  ? 'https://e-commerce-backend-cscx.onrender.com'  // Your production Render URL
   : 'http://localhost:3000';                  // Local development
 
 // API endpoints - they will automatically use the correct base URL
